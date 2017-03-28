@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- 配置文件的命名空间应该是映射器接口的全限定名 -->
+<mapper namespace="cn.myself.notecloud.dao.BookDao"><!-- 下面这行的resultType 应该是数据库查询以后得到的返回类型，也就是说，如果数据库查到的是许多Book对象，那么myBatis框架会将这些对象使用UtilBean 注入到我选择的匹配的接口中方法定义的类型java.util.List -->
+	<select id="findByUserId" parameterType="string" resultType="cn.myself.notecloud.entity.Book">
+		SELECT 
+			cn_notebook_id as id,
+			cn_notebook_name as name
+		from 
+			cn_notebook
+		where
+			cn_user_id=#{id}
+	</select>
+	<select id="findByBookId" parameterType="string" resultType="cn.myself.notecloud.entity.Book">
+		SELECT 
+			cn_notebook_id as id,
+			cn_user_id as userId,
+			cn_notebook_name as name,
+			cn_notebook_type_id as typeId,
+			cn_notebook_desc as 'desc',
+			cn_notebook_createtime as createTime
+		from
+			cn_notebook
+		where 
+			cn_notebook_id=#{bookId}
+	
+	</select>
+	<insert id="save" parameterType="cn.myself.notecloud.entity.Book">
+		INSERT INTO cn_notebook(
+			cn_notebook_id,
+			cn_user_id,
+			cn_notebook_name,
+			cn_notebook_type_id,
+			cn_notebook_desc,
+			cn_notebook_createtime
+		)values(
+		#{id},
+		#{userId},
+		#{name},
+		#{typeId},
+		#{desc},
+		#{createTime}
+		)
+		
+	</insert>
+</mapper>
